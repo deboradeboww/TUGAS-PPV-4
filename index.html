@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Manajemen Tugas Interaktif</title>
+    <!-- FontAwesome Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- File CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- NOTIFIKASI POP-UP ATAS (TOP TOAST) -->
+    <div id="toastNotification" class="toast-notification-top">
+        <div class="toast-content">
+            <i class="fa-solid fa-bell toast-icon"></i>
+            <div class="toast-text">
+                <strong>Sistem Manajemen Tugas</strong>
+                <p id="toastMessage">Yey! Tugas barumu berhasil ditambahkan!</p>
+            </div>
+        </div>
+        <button class="toast-close" id="closeToastBtn">&times;</button>
+    </div>
+
+    <!-- ELEMEN AUDIO UNTUK ASET MEDIA (LANGKAH 3) -->
+    <audio id="actionSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
+
+    <div class="main-wrapper">
+        <!-- HEADER & BAR NAVIGASI -->
+        <header class="app-header">
+            <div class="user-profile">
+                <div class="avatar">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <h2>Hai Debo!</h2>
+                    <p>Kelola tugas, catatan, dan jadwal kuliahmu di sini!</p>
+                </div>
+            </div>
+
+            <!-- BAR NAVIGASI MULTI-HALAMAN -->
+            <nav class="sidebar">
+                <ul class="nav-menu">
+                    <li class="nav-item active" id="navInput">
+                        <i class="fa-solid fa-pen-to-square"></i><span>Input</span>
+                    </li>
+                    <li class="nav-item" id="navList">
+                        <i class="fa-solid fa-list-check"></i><span>List</span>
+                        <span class="nav-badge" id="taskCountBadge">0</span>
+                    </li>
+                    <li class="nav-item" id="navNotes">
+                        <i class="fa-solid fa-note-sticky"></i><span>Notes</span>
+                    </li>
+                    <li class="nav-item" id="navSchedule">
+                        <i class="fa-solid fa-calendar-days"></i><span>Jadwal</span>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- AREA KONTEN UTAMA -->
+        <main class="main-content">
+
+            <!-- HALAMAN 1A: FORM INPUT TUGAS -->
+            <section class="page-card" id="pageInput">
+                <h1>Formulir Tambah Tugas</h1>
+                <p class="subtitle-hint">Tekan Enter di kolom manapun untuk menyimpan</p>
+                
+                <form id="taskForm">
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="taskTitle">Nama Tugas</label>
+                            <input type="text" id="taskTitle" placeholder="Masukkan nama tugas..." autocomplete="off">
+                            <div class="error-message" id="titleError">Nama tugas wajib diisi!</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="taskCategory">Mata Kuliah</label>
+                            <select id="taskCategory">
+                                <option value="">-- Pilih Mata Kuliah --</option>
+                                <option value="Jaringan Komputer">Jaringan Komputer</option>
+                                <option value="Praktikum Jaringan Komputer">Praktikum Jaringan Komputer</option>
+                                <option value="Teknik Penyiaran">Teknik Penyiaran</option>
+                                <option value="Praktikum Teknik Penyiaran">Praktikum Teknik Penyiaran</option>
+                                <option value="Animasi 2D">Animasi 2D</option>
+                                <option value="Praktikum Animasi 2D">Praktikum Animasi 2D</option>
+                                <option value="Sistem Pemancar">Sistem Pemancar</option>
+                                <option value="Praktikum Sistem Pemancar">Praktikum Sistem Pemancar</option>
+                                <option value="Workshop UI/UX">Workshop UI/UX</option>
+                                <option value="Workshop Jurnalistik">Workshop Jurnalistik</option>
+                                <option value="Workshop Produksi Konten">Workshop Produksi Konten</option>
+                                <option value="Pemrograman Visual">Pemrograman Visual</option>
+                                <option value="Praktikum Pemrograman Visual">Praktikum Pemrograman Visual</option>
+                            </select>
+                            <div class="error-message" id="categoryError">Pilih mata kuliah terlebih dahulu!</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="taskDeadline">Tenggat Waktu</label>
+                            <input type="date" id="taskDeadline">
+                            <div class="error-message" id="deadlineError">Pilih tenggat waktu!</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="taskPriority">Prioritas Tugas</label>
+                            <select id="taskPriority">
+                                <option value="Rendah">Rendah</option>
+                                <option value="Sedang" selected>Sedang</option>
+                                <option value="Tinggi">Tinggi</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="taskStatus">Status Awal</label>
+                            <select id="taskStatus">
+                                <option value="Belum Selesai" selected>Belum Selesai</option>
+                                <option value="Sedang Dikerjakan">Sedang Dikerjakan</option>
+                                <option value="Selesai">Selesai</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn-submit">Simpan Tugas</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- HALAMAN 1B: LIST TUGAS + STATISTIK PROGRES -->
+            <section class="page-card hidden" id="pageList">
+                <h1>Daftar Tugas Saya</h1>
+
+                <!-- BOX STATISTIK & BAR PROGRES TUGAS -->
+                <div class="stats-box">
+                    <div class="stats-header">
+                        <span><i class="fa-solid fa-chart-line"></i> Progres Tugas Selesai</span>
+                        <span id="progressText" class="progress-percent-text">0%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div id="progressBar" class="progress-fill"></div>
+                    </div>
+                </div>
+
+                <!-- FILTER SECTION -->
+                <div class="filter-section">
+                    <select id="filterCategory">
+                        <option value="Semua">Semua Mata Kuliah</option>
+                        <option value="Jaringan Komputer">Jaringan Komputer</option>
+                        <option value="Praktikum Jaringan Komputer">Praktikum Jaringan Komputer</option>
+                        <option value="Teknik Penyiaran">Teknik Penyiaran</option>
+                        <option value="Praktikum Teknik Penyiaran">Praktikum Teknik Penyiaran</option>
+                        <option value="Animasi 2D">Animasi 2D</option>
+                        <option value="Praktikum Animasi 2D">Praktikum Animasi 2D</option>
+                        <option value="Sistem Pemancar">Sistem Pemancar</option>
+                        <option value="Praktikum Sistem Pemancar">Praktikum Sistem Pemancar</option>
+                        <option value="Workshop UI/UX">Workshop UI/UX</option>
+                        <option value="Workshop Jurnalistik">Workshop Jurnalistik</option>
+                        <option value="Workshop Produksi Konten">Workshop Produksi Konten</option>
+                        <option value="Pemrograman Visual">Pemrograman Visual</option>
+                        <option value="Praktikum Pemrograman Visual">Praktikum Pemrograman Visual</option>
+                    </select>
+
+                    <select id="filterStatus">
+                        <option value="Semua">Semua Status</option>
+                        <option value="Belum Selesai">Belum Selesai</option>
+                        <option value="Sedang Dikerjakan">Sedang Dikerjakan</option>
+                        <option value="Selesai">Selesai</option>
+                    </select>
+                </div>
+
+                <!-- DAFTAR TUGAS CONTAINER -->
+                <div class="task-container" id="taskList">
+                    <div class="empty-state" id="emptyState">
+                        <img src="https://cdn-icons-png.flaticon.com/512/7486/7486744.png" alt="Ilustrasi Tugas Kosong" class="empty-img" width="70">
+                        <p>Belum ada tugas tersimpan. Silakan isi lewat menu "Input"!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HALAMAN 2: STICKY NOTES -->
+            <section class="page-card hidden" id="pageNotes">
+                <h1>Catatan Cepat (Sticky Notes)</h1>
+                
+                <div class="note-input-box">
+                    <input type="text" id="noteInputText" placeholder="Tulis ide atau catatan cepat..." autocomplete="off">
+                    
+                    <!-- PILIHAN 6 WARNA CATATAN -->
+                    <div class="color-picker-wrapper">
+                        <span class="color-picker-label">Pilih Warna:</span>
+                        <div class="color-options">
+                            <button class="color-btn color-kuning active" data-color="kuning" title="Kuning"></button>
+                            <button class="color-btn color-pink" data-color="pink" title="Pink"></button>
+                            <button class="color-btn color-merah" data-color="merah" title="Merah"></button>
+                            <button class="color-btn color-biru" data-color="biru" title="Biru"></button>
+                            <button class="color-btn color-hijau" data-color="hijau" title="Hijau"></button>
+                            <button class="color-btn color-ungu" data-color="ungu" title="Ungu"></button>
+                        </div>
+                    </div>
+
+                    <button id="addNoteBtn" class="btn-submit" style="margin-top: 10px;">Tambah Catatan</button>
+                </div>
+
+                <div class="notes-container" id="notesContainer">
+                    <div class="empty-state" id="emptyNotesState">
+                        <img src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png" alt="Ilustrasi Catatan Kosong" class="empty-img" width="70">
+                        <p>Belum ada catatan cepat tersimpan.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HALAMAN 3: JADWAL MATA KULIAH -->
+            <section class="page-card hidden" id="pageSchedule">
+                <h1>Jadwal Mata Kuliah</h1>
+                <div id="scheduleContainer">
+                    <!-- Jadwal dirender otomatis oleh JavaScript -->
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- POP-UP MODAL EDIT TUGAS -->
+    <div id="editModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-pen-to-square"></i> Edit Tugas</h3>
+                <button id="closeModalBtn" class="modal-close-btn">&times;</button>
+            </div>
+            <form id="editTaskForm">
+                <input type="hidden" id="editTaskId">
+                <div class="form-group" style="margin-bottom: 12px;">
+                    <label for="editTaskTitle">Nama Tugas</label>
+                    <input type="text" id="editTaskTitle" required autocomplete="off">
+                </div>
+                <div class="form-group" style="margin-bottom: 12px;">
+                    <label for="editTaskCategory">Mata Kuliah</label>
+                    <select id="editTaskCategory" required>
+                        <option value="Jaringan Komputer">Jaringan Komputer</option>
+                        <option value="Praktikum Jaringan Komputer">Praktikum Jaringan Komputer</option>
+                        <option value="Teknik Penyiaran">Teknik Penyiaran</option>
+                        <option value="Praktikum Teknik Penyiaran">Praktikum Teknik Penyiaran</option>
+                        <option value="Animasi 2D">Animasi 2D</option>
+                        <option value="Praktikum Animasi 2D">Praktikum Animasi 2D</option>
+                        <option value="Sistem Pemancar">Sistem Pemancar</option>
+                        <option value="Praktikum Sistem Pemancar">Praktikum Sistem Pemancar</option>
+                        <option value="Workshop UI/UX">Workshop UI/UX</option>
+                        <option value="Workshop Jurnalistik">Workshop Jurnalistik</option>
+                        <option value="Workshop Produksi Konten">Workshop Produksi Konten</option>
+                        <option value="Pemrograman Visual">Pemrograman Visual</option>
+                        <option value="Praktikum Pemrograman Visual">Praktikum Pemrograman Visual</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 12px;">
+                    <label for="editTaskDeadline">Tenggat Waktu (Deadline)</label>
+                    <input type="date" id="editTaskDeadline" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="editTaskPriority">Prioritas</label>
+                    <select id="editTaskPriority">
+                        <option value="Rendah">Rendah</option>
+                        <option value="Sedang">Sedang</option>
+                        <option value="Tinggi">Tinggi</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-submit">Simpan Perubahan</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- POP-UP MODAL EDIT JADWAL -->
+    <div id="editScheduleModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-calendar-pen"></i> Edit Jadwal Kuliah</h3>
+                <button id="closeScheduleModalBtn" class="modal-close-btn">&times;</button>
+            </div>
+            <form id="editScheduleForm">
+                <input type="hidden" id="editSchedDay">
+                <input type="hidden" id="editSchedIndex">
+                
+                <div class="form-group" style="margin-bottom: 12px;">
+                    <label for="editSchedTime">Waktu</label>
+                    <input type="text" id="editSchedTime" required placeholder="Contoh: 08.00 – 09.40 WIB" autocomplete="off">
+                </div>
+                <div class="form-group" style="margin-bottom: 12px;">
+                    <label for="editSchedSubject">Mata Kuliah</label>
+                    <input type="text" id="editSchedSubject" required placeholder="Nama Mata Kuliah..." autocomplete="off">
+                </div>
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="editSchedRoom">Ruang / Lokasi</label>
+                    <input type="text" id="editSchedRoom" required placeholder="Contoh: JJ 3.11" autocomplete="off">
+                </div>
+                <button type="submit" class="btn-submit">Simpan Jadwal</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- File JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,643 @@
+:root {
+    --bg-pink: #ffeef2;
+    --card-bg: #ffffff;
+    --text-dark: #4a3e4d;
+    --text-muted: #8c7b8e;
+    --gradient-header: linear-gradient(135deg, #f06292 0%, #ec407a 50%, #ff8a65 100%);
+    --gradient-btn: linear-gradient(90deg, #ec407a, #ff8a65);
+    --input-border: #f8bbd0;
+    --shadow: 0 8px 24px rgba(236, 64, 122, 0.12);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-pink);
+    color: var(--text-dark);
+    display: flex;
+    justify-content: center;
+    padding: 20px 12px 40px;
+    min-height: 100vh;
+}
+
+.main-wrapper {
+    width: 100%;
+    max-width: 540px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.app-header {
+    background: var(--gradient-header);
+    border-radius: 24px;
+    padding: 16px;
+    color: white;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: sticky;
+    top: 10px;
+    z-index: 100;
+}
+
+.user-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 6px;
+}
+
+.avatar {
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.user-info h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.user-info p {
+    font-size: 0.78rem;
+    opacity: 0.9;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    gap: 6px;
+}
+
+.nav-item {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 6px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.78rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.nav-item:hover, .nav-item.active {
+    background: #ffffff;
+    color: #ec407a;
+}
+
+.nav-badge {
+    background: #ec407a;
+    color: white;
+    font-size: 0.68rem;
+    padding: 2px 7px;
+    border-radius: 10px;
+}
+
+.page-card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+}
+
+h1 {
+    font-size: 1.15rem;
+    color: #d81b60;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--bg-pink);
+    text-align: center;
+}
+
+.subtitle-hint {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+input[type="text"], input[type="date"], select {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--input-border);
+    border-radius: 16px;
+    font-size: 0.88rem;
+    background: #fff5f7;
+    color: var(--text-dark);
+    outline: none;
+    text-align: center;
+    text-align-last: center;
+}
+
+input:focus, select:focus {
+    border-color: #ec407a;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(236, 64, 122, 0.15);
+}
+
+.error-message {
+    color: #e53935;
+    font-size: 0.75rem;
+    display: none;
+    text-align: center;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 13px;
+    background: var(--gradient-btn);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(236, 64, 122, 0.25);
+    margin-top: 6px;
+}
+
+/* === STATISTIK PROGRES DI LIST TUGAS === */
+.stats-box {
+    background: #fff0f3;
+    border: 1px solid #f8bbd0;
+    border-radius: 16px;
+    padding: 14px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stats-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #c2185b;
+}
+
+.progress-track {
+    background: #f8bbd0;
+    border-radius: 10px;
+    height: 12px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.progress-fill {
+    background: linear-gradient(90deg, #ec407a, #d81b60);
+    height: 100%;
+    width: 0%;
+    transition: width 0.4s ease;
+}
+
+.filter-section {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.filter-section select {
+    font-size: 0.78rem;
+    padding: 8px 10px;
+    border-radius: 12px;
+}
+
+.task-container, .notes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.task-card-item {
+    background: #ffffff;
+    border: 1px solid var(--input-border);
+    border-radius: 16px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.task-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.task-title-text {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    word-break: break-word;
+    flex: 1;
+}
+
+.task-meta-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tag-badge {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.tag-mk { background: #f3e5f5; color: #ab47bc; }
+.tag-date { background: #fff3e0; color: #ef6c00; }
+.tag-prio-Tinggi { background: #ffebee; color: #c62828; }
+.tag-prio-Sedang { background: #e8eaf6; color: #283593; }
+.tag-prio-Rendah { background: #f1f8e9; color: #33691e; }
+
+.task-footer-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px dashed var(--input-border);
+    padding-top: 8px;
+}
+
+.status-badge {
+    font-size: 0.72rem;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.status-Belum { background: #ffebee; color: #c62828; }
+.status-Sedang { background: #fff8e1; color: #f57f17; }
+.status-Selesai { background: #e8f5e9; color: #2e7d32; }
+
+.btn-act {
+    border: none;
+    background: #f5f5f5;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.75rem;
+}
+
+.btn-act.btn-del {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.note-card-item {
+    background: #fff8e1;
+    border: 1.5px solid #ffe082;
+    border-radius: 14px;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.note-text {
+    font-size: 0.88rem;
+    color: #5d4037;
+    word-break: break-word;
+    flex: 1;
+}
+
+/* === DESAIN TABEL JADWAL KULIAH (NUANSA PINK KHAST WEBSITEMU) === */
+.day-schedule-card {
+    margin-bottom: 16px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #f8bbd0;
+    box-shadow: 0 2px 8px rgba(236, 64, 122, 0.08);
+}
+
+.day-header {
+    background: linear-gradient(135deg, #f06292 0%, #ec407a 100%);
+    color: white;
+    padding: 9px 14px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+    background: white;
+}
+
+.schedule-table th {
+    background: #fff0f3;
+    color: #c2185b;
+    padding: 8px 10px;
+    text-align: left;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    border-bottom: 1px solid #f8bbd0;
+}
+
+.schedule-table td {
+    padding: 9px 10px;
+    border-bottom: 1px solid #fce4ec;
+    color: var(--text-dark);
+}
+
+.schedule-table tr:last-child td {
+    border-bottom: none;
+}
+
+.room-badge {
+    background: #fff5f7;
+    color: #d81b60;
+    border: 1px solid #f8bbd0;
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.72rem;
+    display: inline-block;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 20px 10px;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+}
+
+.empty-img {
+    margin-bottom: 6px;
+    opacity: 0.7;
+}
+
+.page-card.hidden {
+    display: none !important;
+}
+
+/* NOTIFIKASI TOAST ATAS */
+.toast-notification-top {
+    position: fixed;
+    top: -120px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 450px;
+    background: #ffffff;
+    border-left: 5px solid #ec407a;
+    border-radius: 14px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    transition: top 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 99999;
+}
+
+.toast-notification-top.show {
+    top: 15px;
+}
+
+.toast-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.toast-icon {
+    font-size: 1.3rem;
+    color: #ec407a;
+}
+
+.toast-text strong {
+    display: block;
+    font-size: 0.82rem;
+    color: #333;
+}
+
+.toast-text p {
+    font-size: 0.78rem;
+    color: #666;
+    margin: 0;
+}
+
+.toast-close {
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    color: #aaa;
+    cursor: pointer;
+}
+
+/* === POP-UP MODAL EDIT TUGAS === */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    padding: 16px;
+}
+
+.modal-overlay.hidden {
+    display: none !important;
+}
+
+.modal-content {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 20px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 10px 30px rgba(236, 64, 122, 0.2);
+    border: 1.5px solid var(--input-border);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1.5px solid var(--bg-pink);
+}
+
+.modal-header h3 {
+    font-size: 1.05rem;
+    color: #d81b60;
+    margin: 0;
+}
+
+.modal-close-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.4rem;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.modal-close-btn:hover {
+    color: #333;
+}
+
+.btn-act.btn-edit {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+/* === COLOR PICKER STICKY NOTES === */
+.color-picker-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    background: #fff5f7;
+    padding: 8px 12px;
+    border-radius: 14px;
+    border: 1px solid var(--input-border);
+}
+
+.color-picker-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+.color-options {
+    display: flex;
+    gap: 8px;
+}
+
+.color-btn {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.color-btn:hover, .color-btn.active {
+    transform: scale(1.2);
+    border-color: #4a3e4d;
+}
+
+/* 6 VARIASI WARNA CATATAN */
+.color-kuning { background-color: #fff8e1; }
+.color-pink   { background-color: #fce4ec; }
+.color-merah  { background-color: #ffebee; }
+.color-biru   { background-color: #e3f2fd; }
+.color-hijau  { background-color: #e8f5e9; }
+.color-ungu   { background-color: #f3e5f5; }
+
+/* KARTU CATATAN BERDASARKAN WARNA */
+.note-card-item {
+    border-radius: 14px;
+    padding: 12px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.note-card-item.note-kuning { background: #fff8e1; border: 1.5px solid #ffe082; }
+.note-card-item.note-pink   { background: #fce4ec; border: 1.5px solid #f8bbd0; }
+.note-card-item.note-merah  { background: #ffebee; border: 1.5px solid #ffcdd2; }
+.note-card-item.note-biru   { background: #e3f2fd; border: 1.5px solid #bbdefb; }
+.note-card-item.note-hijau  { background: #e8f5e9; border: 1.5px solid #c8e6c9; }
+.note-card-item.note-ungu   { background: #f3e5f5; border: 1.5px solid #e1bee7; }
+
+/* STYLES SAAT CATATAN DI-PIN */
+.note-card-item.is-pinned {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+.btn-pin {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #bdbdbd;
+    transition: color 0.2s, transform 0.2s;
+    padding: 4px;
+}
+
+.btn-pin:hover {
+    transform: scale(1.15);
+}
+
+.btn-pin.active {
+    color: #f57f17; /* Warna emas/kuning saat aktif di-pin */
+    transform: rotate(-30deg);
+}
+
+.day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-edit-schedule {
+    background: rgba(255, 255, 255, 0.25);
+    border: none;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.72rem;
+    transition: background 0.2s;
+}
+
+.btn-edit-schedule:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
